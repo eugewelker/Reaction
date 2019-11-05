@@ -32640,7 +32640,7 @@ var _pubnub2 = _interopRequireDefault(require("./pubnub.config"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var pubnub = new pubNub(_pubnub2.default);
+var pubnub = new _pubnub.default(_pubnub2.default);
 var MESSAGE_CHANNEL = 'MESSAGE_CHANNEL';
 exports.MESSAGE_CHANNEL = MESSAGE_CHANNEL;
 pubnub.subscribe({

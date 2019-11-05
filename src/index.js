@@ -3,13 +3,28 @@ import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
 import {Provider} from 'react-react';
 import rootReducer from './reducers';
+import PubSub from './pubsub';
 import App from './components/App';
 import './index.css';
-import './pubsub';
 
 const store= createStore(rootReducer);
 
 console.log('store.getState()', store.getState());
+store.subscribe(() => console.log('store.getState()',store.getState()));
+
+const pubsub = new PubSub ();
+
+pubsub.addListener({
+    message:messageObject => {
+        const {message,channel} = messageObject;
+
+        store.dispatch(message);
+    }
+})
+
+setTimeout(() => {
+    pubsub.publish({ type:'foo',value:'bar'});
+},1000);
 
 ReactDOM.render(
 <Provider store={store}>
