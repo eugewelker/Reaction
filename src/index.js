@@ -5,6 +5,7 @@ import {Provider} from 'react-react';
 import rootReducer from './reducers';
 import App from './components/App';
 import './index.css';
+import './pubsub';
 
 const store= createStore(rootReducer);
 
