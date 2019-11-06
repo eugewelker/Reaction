@@ -32558,9 +32558,11 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.MESSAGE_CHANNEL = void 0;
+exports.default = exports.PubSubContext = exports.MESSAGE_CHANNEL = void 0;
 
 var _pubnub = _interopRequireDefault(require("pubnub"));
+
+var _react = require("react");
 
 var _pubnub2 = _interopRequireDefault(require("./pubnub.config"));
 
@@ -32597,6 +32599,10 @@ var PubSub = function PubSub() {
   });
 };
 
+var PubSubContext = (0, _react.createContext)({
+  pubsub: new PubSub()
+});
+exports.PubSubContext = PubSubContext;
 var _default = PubSub;
 /*
 pubnub.addListener({
@@ -32614,7 +32620,7 @@ setTimeout(() => {
 */
 
 exports.default = _default;
-},{"pubnub":"../node_modules/pubnub/dist/web/pubnub.min.js","./pubnub.config":"pubnub.config.json"}],"../node_modules/uuid/lib/rng-browser.js":[function(require,module,exports) {
+},{"pubnub":"../node_modules/pubnub/dist/web/pubnub.min.js","react":"../node_modules/react/index.js","./pubnub.config":"pubnub.config.json"}],"../node_modules/uuid/lib/rng-browser.js":[function(require,module,exports) {
 // Unique ID creation requires a high quality random # generator.  In the
 // browser this is a little complicated due to unknown quality of Math.random()
 // and inconsistent support for the `crypto` API.  We do the best we can via
@@ -32743,11 +32749,9 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _pubsub = _interopRequireDefault(require("../pubsub"));
+var _pubsub = require("../pubsub");
 
 var _messages = require("../actions/messages");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -32772,8 +32776,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var pubsub = new Pubsub();
 
 var PublishMessage =
 /*#__PURE__*/
@@ -32804,7 +32806,7 @@ function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "publishMessage", function () {
-      pubsub.publish((0, _messages.newMessage)(_this.state.text));
+      _this.context.pubsub.publish((0, _messages.newMessage)(_this.state.text));
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleKeyPress", function () {
@@ -32817,7 +32819,7 @@ function (_Component) {
   _createClass(PublishMessage, [{
     key: "render",
     value: function render() {
-      _react.default.createElement("div", null, _react.default.createElement("h3", null, "Got something to say?"), _react.default.createElement("input", {
+      return _react.default.createElement("div", null, _react.default.createElement("h3", null, "Got something to say?"), _react.default.createElement("input", {
         onChange: this.updateText,
         onKeyPress: this.handleKeyPress
       }), '', _react.default.createElement("button", {
@@ -32828,6 +32830,8 @@ function (_Component) {
 
   return PublishMessage;
 }(_react.Component);
+
+_defineProperty(PublishMessage, "contextType", _pubsub.PubSubContext);
 
 var _default = PublishMessage;
 exports.default = _default;
@@ -32976,13 +32980,17 @@ var _reactReact = require("react-react");
 
 var _reducers = _interopRequireDefault(require("./reducers"));
 
-var _pubsub = _interopRequireDefault(require("./pubsub"));
+var _pubsub = _interopRequireWildcard(require("./pubsub"));
 
 var _App = _interopRequireDefault(require("./components/App"));
 
 var _messages = require("./actions/messages");
 
 require("./index.css");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33005,7 +33013,11 @@ setTimeout(function () {
 
 _reactDom.default.render(_react.default.createElement(_reactReact.Provider, {
   store: store
-}, _react.default.createElement(_App.default, null)), document.getElementById('root'));
+}, _react.default.createElement(_pubsub.PubSubContext.Provider, {
+  value: {
+    pubsub: pubsub
+  }
+}, _react.default.createElement(_App.default, null))), document.getElementById('root'));
 },{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","redux":"../node_modules/redux/es/redux.js","react-react":"../node_modules/react-react/src/index.js","./reducers":"reducers/index.js","./pubsub":"pubsub.js","./components/App":"components/App.js","./actions/messages":"actions/messages.js","./index.css":"index.css"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

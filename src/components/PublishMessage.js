@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import PubSub from '../pubsub';
+import {PubSubContext} from '../pubsub';
 import {newMessage} from '../actions/messages';
-
-const pubsub = new Pubsub ();
 
 class PublishMessage extends Component {
     state = {text:''};
@@ -10,7 +8,7 @@ class PublishMessage extends Component {
     updateText = event => this.setState({text:event.target.value});
 
     publishMessage= () => {
-        pubsub.publish(newMessage(this.state.text));
+       this.context.pubsub.publish(newMessage(this.state.text));
     }
 
     handleKeyPress= () => {
@@ -18,13 +16,17 @@ class PublishMessage extends Component {
     }
 
     render() {
-        <div>
+        return(
+            <div>
             <h3>Got something to say?</h3>
             <input onChange={this.updateText} onKeyPress={this.handleKeyPress} />
             {''}
             <button onClick={this.publishMessage}>Publish it!</button>
         </div>
+        )
     }
+    
+    static contextType = PubSubContext;
 }
 
 export default PublishMessage;
