@@ -34700,6 +34700,8 @@ exports.default = exports.PubSubContext = exports.MESSAGE_CHANNEL = void 0;
 
 var _pubnub = _interopRequireDefault(require("pubnub"));
 
+var _react = require("react");
+
 var _pubnub2 = _interopRequireDefault(require("./pubnub.config"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -34735,7 +34737,7 @@ var PubSub = function PubSub() {
   });
 };
 
-var PubSubContext = createContext();
+var PubSubContext = (0, _react.createContext)();
 exports.PubSubContext = PubSubContext;
 var _default = PubSub;
 /*
@@ -34754,7 +34756,7 @@ setTimeout(() => {
 */
 
 exports.default = _default;
-},{"pubnub":"../node_modules/pubnub/dist/web/pubnub.min.js","./pubnub.config":"pubnub.config.json"}],"../node_modules/uuid/lib/rng-browser.js":[function(require,module,exports) {
+},{"pubnub":"../node_modules/pubnub/dist/web/pubnub.min.js","react":"../node_modules/react/index.js","./pubnub.config":"pubnub.config.json"}],"../node_modules/uuid/lib/rng-browser.js":[function(require,module,exports) {
 // Unique ID creation requires a high quality random # generator.  In the
 // browser this is a little complicated due to unknown quality of Math.random()
 // and inconsistent support for the `crypto` API.  We do the best we can via
@@ -35459,7 +35461,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57300" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60206" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
