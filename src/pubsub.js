@@ -5,9 +5,9 @@ export const MESSAGE_CHANNEL='MESSAGE_CHANNEL';
 
 class PubSub{
     constructor() {
-        this.pubnub= new PubNub(pubnubConfig);
+        this.pubnub = new PubNub(pubnubConfig);
 
-        this.pubnub.subscribe({channels:[MESSAGE_CHANNEL]});
+        this.pubnub.subscribe({ channels: [MESSAGE_CHANNEL] });
     }
 
     addListener = listenerConfig => {
